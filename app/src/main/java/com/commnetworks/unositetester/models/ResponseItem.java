@@ -1,5 +1,9 @@
 package com.commnetworks.unositetester.models;
 
+import com.android.volley.toolbox.StringRequest;
+
+import java.util.Map;
+
 /**
  * Created by Pratik on 10/9/2015
  * Structure used to display call return data on the UI
@@ -7,8 +11,10 @@ package com.commnetworks.unositetester.models;
 public class ResponseItem {
 
     private UNORequest request;
+    private String host;
     private boolean success;
     private String httpStatusCode;
+    private Map<String, String> headers;
     private String responseBody;
     private boolean responseBodyVisible = false;
     private String tag;
@@ -22,6 +28,7 @@ public class ResponseItem {
         this.request = request;
         this.httpStatusCode = httpStatusCode;
         this.responseBody = responseBody;
+        this.host = request.getHost();
     }
 
     public UNORequest getRequest() {
@@ -30,6 +37,14 @@ public class ResponseItem {
 
     public void setRequest(UNORequest request) {
         this.request = request;
+    }
+
+    public String getHost() {
+        return host;
+    }
+
+    public void setHost(String host) {
+        this.host = host;
     }
 
     public boolean isSuccess() {
@@ -46,6 +61,14 @@ public class ResponseItem {
 
     public void setHttpStatusCode(String httpStatusCode) {
         this.httpStatusCode = httpStatusCode;
+    }
+
+    public Map<String, String> getHeaders() {
+        return headers;
+    }
+
+    public void setHeaders(Map<String, String> headers) {
+        this.headers = headers;
     }
 
     public String getResponseBody() {

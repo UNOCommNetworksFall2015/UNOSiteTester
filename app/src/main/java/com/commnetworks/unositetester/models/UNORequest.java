@@ -2,18 +2,27 @@ package com.commnetworks.unositetester.models;
 
 import com.android.volley.Request;
 
+import java.util.List;
+
 /**
  * Created by Pratik on 10/9/2015
  */
 public class UNORequest {
 
+    private long id;
+
     private int method;
 
     private String path;
 
-    public UNORequest(int method, String path) {
+    private String body;
+
+    private String host;
+
+    public UNORequest(int method, String path, String host) {
         this.method = method;
         this.path = path;
+        this.host = host;
     }
 
     public String getMethodName() {
@@ -49,5 +58,13 @@ public class UNORequest {
 
     public void setPath(String path) {
         this.path = path;
+    }
+
+    public String getHost() {
+        return host;
+    }
+
+    public void setHost(String host) {
+        this.host = host;
     }
 }

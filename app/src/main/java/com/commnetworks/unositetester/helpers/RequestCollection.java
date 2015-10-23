@@ -21,20 +21,20 @@ public class RequestCollection {
 
     private void generateRequests(){
         String blackboard = "https://blackboard.unomaha.edu";
-        collection.add(new UNORequest(Request.Method.HEAD, blackboard));
-        collection.add(new UNORequest(Request.Method.GET, blackboard));
+        collection.add(new UNORequest(Request.Method.HEAD, blackboard, "unomaha.edu"));
+        collection.add(new UNORequest(Request.Method.GET, blackboard, "unomaha.edu"));
 
-        String mavlink = "https://mavlink.unomaha.edu";
-        collection.add(new UNORequest(Request.Method.HEAD, mavlink));
-        collection.add(new UNORequest(Request.Method.GET, mavlink));
+        String mavlink = "https://mavlink.nebraska.edu";
+        collection.add(new UNORequest(Request.Method.HEAD, mavlink, "nebraska.edu"));
+        collection.add(new UNORequest(Request.Method.GET, mavlink, "nebraska.edu"));
 
         String mavtrack = "http://mavtrack.unomaha.edu";
-        collection.add(new UNORequest(Request.Method.HEAD, mavtrack));
-        collection.add(new UNORequest(Request.Method.GET, mavtrack));
+        collection.add(new UNORequest(Request.Method.HEAD, mavtrack, "unomaha.edu"));
+        collection.add(new UNORequest(Request.Method.GET, mavtrack, "unomaha.edu"));
 
         String firefly = "https://firefly.nebraska.edu";
-        collection.add(new UNORequest(Request.Method.HEAD, firefly));
-        collection.add(new UNORequest(Request.Method.GET, firefly));
+        collection.add(new UNORequest(Request.Method.HEAD, firefly, "nebraska.edu"));
+        collection.add(new UNORequest(Request.Method.GET, firefly, "nebraska.edu"));
     }
 
     public List<UNORequest> getCollection() {
