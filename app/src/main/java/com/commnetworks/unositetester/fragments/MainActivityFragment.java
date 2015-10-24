@@ -1,7 +1,9 @@
 package com.commnetworks.unositetester.fragments;
 
+import android.os.Environment;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,15 +14,17 @@ import android.widget.ListView;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
-import com.android.volley.toolbox.StringRequest;
 import com.commnetworks.unositetester.R;
 import com.commnetworks.unositetester.adapters.ResultsAdapter;
 import com.commnetworks.unositetester.helpers.RequestCollection;
 import com.commnetworks.unositetester.models.ResponseItem;
 import com.commnetworks.unositetester.models.UNORequest;
 import com.commnetworks.unositetester.network.GenericRequest;
-import com.commnetworks.unositetester.network.UNOSingleton;
 
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -32,8 +36,6 @@ public class MainActivityFragment extends Fragment {
     private BaseAdapter mAdapter;
     private List<ResponseItem> mResponseItems;
 
-    RequestQueue mQueue;
-
     public MainActivityFragment() {
     }
 
@@ -42,7 +44,6 @@ public class MainActivityFragment extends Fragment {
         super.onCreate(savedInstanceState);
 
         mResponseItems = new ArrayList<>();
-        mQueue = UNOSingleton.getInstance(this.getActivity().getApplicationContext()).getRequestQueue();
     }
 
     @Override
@@ -94,30 +95,6 @@ public class MainActivityFragment extends Fragment {
         final int intTag = Integer.parseInt(tag);
         final long startTime = System.currentTimeMillis();
 
-        /*StringRequest stringRequest = new StringRequest(request.getMethod(), request.getPath(), new Response.Listener<String>() {
-            @Override
-            public void onResponse(String response) {
-                ResponseItem rp = new ResponseItem(request, "200", response);
-                rp.setSuccess(true);
-                rp.setResponseTime(System.currentTimeMillis() - startTime);
-                replaceResponseItem(intTag, rp);
-                mAdapter.notifyDataSetChanged();
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                ResponseItem rp = new ResponseItem(request, String.valueOf(error.networkResponse.statusCode), error.getLocalizedMessage());
-                rp.setSuccess(false);
-                rp.setResponseTime(System.currentTimeMillis() - startTime);
-                rp.setTag(tag);
-                rp.setResponseBodyVisible(false);
-                replaceResponseItem(intTag, rp);
-                mAdapter.notifyDataSetChanged();
-            }
-        });
-
-        mQueue.add(stringRequest);*/
-
         new GenericRequest(getActivity().getApplication(), request, tag, new Response.Listener<ResponseItem>() {
 
             @Override
@@ -126,6 +103,7 @@ public class MainActivityFragment extends Fragment {
                 responseItem.setSuccess(true);
                 replaceResponseItem(intTag, responseItem);
                 mAdapter.notifyDataSetChanged();
+                writeToFile(responseItem);
             }
 
         }, new Response.ErrorListener() {
@@ -151,6 +129,7 @@ public class MainActivityFragment extends Fragment {
                 errorResponseItem.setResponseBodyVisible(false);
                 replaceResponseItem(intTag, errorResponseItem);
                 mAdapter.notifyDataSetChanged();
+                writeToFile(errorResponseItem);
             }
 
         }).send();
@@ -159,6 +138,28 @@ public class MainActivityFragment extends Fragment {
     private void replaceResponseItem(int position, ResponseItem newItem) {
         mResponseItems.remove(position);
         mResponseItems.add(position, newItem);
+    }
+
+    private void writeToFile(ResponseItem responseItem) {
+        String content = responseItem.getRequest().getPath() + "\t" + responseItem.getRequest().getMethodName() + "\t"
+                + responseItem.getHttpStatusCode() + "\t" + responseItem.getResponseTime() + "ms";
+        String tag = "Error in printing to File: ";
+
+        try {
+            File file = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS), "data.csv");
+
+            if (!file.exists()) {
+                file.createNewFile();
+            }
+
+            FileWriter fw = new FileWriter(file.getAbsoluteFile(), true);
+            BufferedWriter bw = new BufferedWriter(fw);
+            bw.write(content);
+            bw.close();
+
+        } catch (IOException ioe) {
+            Log.e(tag, ioe.getStackTrace().toString());
+        }
     }
 
 }

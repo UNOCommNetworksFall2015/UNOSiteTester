@@ -28,6 +28,10 @@ public class RequestCollection {
         collection.add(new UNORequest(Request.Method.HEAD, mavlink, "nebraska.edu"));
         collection.add(new UNORequest(Request.Method.GET, mavlink, "nebraska.edu"));
 
+        String mavlink2 = "https://mavlink.unomaha.edu";
+        collection.add(new UNORequest(Request.Method.HEAD, mavlink2, "unomaha.edu"));
+        collection.add(new UNORequest(Request.Method.GET, mavlink2, "unomaha.edu"));
+
         String mavtrack = "http://mavtrack.unomaha.edu";
         collection.add(new UNORequest(Request.Method.HEAD, mavtrack, "unomaha.edu"));
         collection.add(new UNORequest(Request.Method.GET, mavtrack, "unomaha.edu"));
@@ -35,6 +39,10 @@ public class RequestCollection {
         String firefly = "https://firefly.nebraska.edu";
         collection.add(new UNORequest(Request.Method.HEAD, firefly, "nebraska.edu"));
         collection.add(new UNORequest(Request.Method.GET, firefly, "nebraska.edu"));
+
+        String main = "http://www.unomaha.edu";
+        collection.add(new UNORequest(Request.Method.HEAD, main, "unomaha.edu"));
+        collection.add(new UNORequest(Request.Method.GET, main, "unomaha.edu"));
     }
 
     public List<UNORequest> getCollection() {
