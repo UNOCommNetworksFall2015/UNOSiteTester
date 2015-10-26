@@ -142,11 +142,11 @@ public class MainActivityFragment extends Fragment {
 
     private void writeToFile(ResponseItem responseItem) {
         String content = responseItem.getRequest().getPath() + "\t" + responseItem.getRequest().getMethodName() + "\t"
-                + responseItem.getHttpStatusCode() + "\t" + responseItem.getResponseTime() + "ms";
+                + responseItem.getHttpStatusCode() + "\t" + responseItem.getResponseTime() + "ms \n";
         String tag = "Error in printing to File: ";
 
         try {
-            File file = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS), "data.csv");
+            File file = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS), "data.txt");
 
             if (!file.exists()) {
                 file.createNewFile();
